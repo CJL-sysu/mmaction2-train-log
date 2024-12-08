@@ -1,0 +1,8 @@
+2024/10/09 11:39:44 - mmengine - WARNING - Dataset range has no metainfo. ``dataset_meta`` in visualizer will be None.
+Name of parameter - Initialization information
+
+conv.weight - torch.Size([1, 1, 1, 1]): 
+The value is the same before and after calling `init_weights` of SimpleModel  
+
+conv.bias - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of SimpleModel  

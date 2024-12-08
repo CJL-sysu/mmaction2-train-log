@@ -1,0 +1,1058 @@
+2024/10/19 23:52:03 - mmengine - INFO - 
+------------------------------------------------------------
+System environment:
+    sys.platform: linux
+    Python: 3.8.19 (default, Mar 20 2024, 19:58:24) [GCC 11.2.0]
+    CUDA available: True
+    MUSA available: False
+    numpy_random_seed: 3407
+    GPU 0: NVIDIA GeForce RTX 4060 Ti
+    CUDA_HOME: /usr/local/cuda-11.8
+    NVCC: Cuda compilation tools, release 11.8, V11.8.89
+    GCC: gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0
+    PyTorch: 2.4.1
+    PyTorch compiling details: PyTorch built with:
+  - GCC 9.3
+  - C++ Version: 201703
+  - Intel(R) oneAPI Math Kernel Library Version 2023.1-Product Build 20230303 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v3.4.2 (Git Hash 1137e04ec0b5251ca2b4400a4fd3c667ce843d67)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 11.8
+  - NVCC architecture flags: -gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_90,code=sm_90;-gencode;arch=compute_37,code=compute_37
+  - CuDNN 90.1
+  - Magma 2.6.1
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=11.8, CUDNN_VERSION=9.1.0, CXX_COMPILER=/opt/rh/devtoolset-9/root/usr/bin/c++, CXX_FLAGS= -D_GLIBCXX_USE_CXX11_ABI=0 -fabi-version=11 -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOROCTRACER -DUSE_FBGEMM -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -O2 -fPIC -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-strict-overflow -Wno-strict-aliasing -Wno-stringop-overflow -Wsuggest-override -Wno-psabi -Wno-error=pedantic -Wno-error=old-style-cast -Wno-missing-braces -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=2.4.1, USE_CUDA=ON, USE_CUDNN=ON, USE_CUSPARSELT=1, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, 
+
+    TorchVision: 0.19.1
+    OpenCV: 4.10.0
+    MMEngine: 0.10.5
+
+Runtime environment:
+    cudnn_benchmark: False
+    mp_cfg: {'mp_start_method': 'fork', 'opencv_num_threads': 0}
+    dist_cfg: {'backend': 'nccl'}
+    seed: 3407
+    Distributed launcher: none
+    Distributed training: False
+    GPU number: 1
+------------------------------------------------------------
+
+2024/10/19 23:52:03 - mmengine - INFO - Config:
+ann_file_train = '/home/node1/Desktop/code/ai/data/sbu/nc_plus_08size_3c_filter/trainPrivacyRaw.txt'
+ann_file_val = '/home/node1/Desktop/code/ai/data/sbu/nc_plus_08size_3c_filter/valPrivacyRaw.txt'
+auto_scale_lr = dict(base_batch_size=256, enable=False)
+data_root = '/home/node1/Desktop/code/ai/data/sbu/nc_plus_08size_3c_filter/data'
+data_root_val = '/home/node1/Desktop/code/ai/data/sbu/nc_plus_08size_3c_filter/data'
+dataset_type = 'RawframeDataset'
+default_hooks = dict(
+    checkpoint=dict(
+        interval=3, max_keep_ckpts=1, save_best='auto', type='CheckpointHook'),
+    logger=dict(ignore_last=False, interval=100, type='LoggerHook'),
+    param_scheduler=dict(type='ParamSchedulerHook'),
+    runtime_info=dict(type='RuntimeInfoHook'),
+    sampler_seed=dict(type='DistSamplerSeedHook'),
+    sync_buffers=dict(type='SyncBuffersHook'),
+    timer=dict(type='IterTimerHook'))
+default_scope = 'mmaction'
+env_cfg = dict(
+    cudnn_benchmark=False,
+    dist_cfg=dict(backend='nccl'),
+    mp_cfg=dict(mp_start_method='fork', opencv_num_threads=0))
+file_client_args = dict(io_backend='disk')
+launcher = 'none'
+load_from = None
+log_level = 'INFO'
+log_processor = dict(by_epoch=True, type='LogProcessor', window_size=20)
+model = dict(
+    backbone=dict(
+        depth=50,
+        norm_eval=False,
+        pretrained='https://download.pytorch.org/models/resnet50-11ad3fa6.pth',
+        type='ResNet'),
+    cls_head=dict(
+        average_clips='score',
+        in_channels=2048,
+        init_std=0.01,
+        num_classes=21,
+        type='SoftmaxHead'),
+    data_preprocessor=dict(
+        format_shape='NCHW',
+        mean=[
+            123.675,
+            116.28,
+            103.53,
+        ],
+        std=[
+            58.395,
+            57.12,
+            57.375,
+        ],
+        type='ActionDataPreprocessor'),
+    test_cfg=None,
+    train_cfg=None,
+    type='Recognizer2D')
+optim_wrapper = dict(
+    clip_grad=dict(max_norm=40, norm_type=2),
+    optimizer=dict(lr=0.01, momentum=0.9, type='SGD', weight_decay=0.0001))
+param_scheduler = [
+    dict(
+        T_max=50,
+        begin=0,
+        by_epoch=True,
+        end=50,
+        eta_min=0,
+        type='CosineAnnealingLR'),
+]
+randomness = dict(seed=3407)
+resume = False
+test_cfg = dict(type='TestLoop')
+test_dataloader = dict(
+    batch_size=1,
+    dataset=dict(
+        ann_file=
+        '/home/node1/Desktop/code/ai/data/sbu/nc_plus_08size_3c_filter/valPrivacyRaw.txt',
+        data_prefix=dict(
+            img=
+            '/home/node1/Desktop/code/ai/data/sbu/nc_plus_08size_3c_filter/data'
+        ),
+        filename_tmpl='{:06}.png',
+        pipeline=[
+            dict(
+                clip_len=1,
+                frame_interval=1,
+                num_clips=25,
+                test_mode=True,
+                type='SampleFrames'),
+            dict(io_backend='disk', type='RawFrameDecode'),
+            dict(scale=(
+                -1,
+                256,
+            ), type='Resize'),
+            dict(crop_size=224, type='TenCrop'),
+            dict(input_format='NCHW', type='FormatShape'),
+            dict(type='PackActionInputs'),
+        ],
+        test_mode=True,
+        type='RawframeDataset'),
+    num_workers=8,
+    persistent_workers=True,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+test_evaluator = dict(type='AccMetric')
+test_pipeline = [
+    dict(
+        clip_len=1,
+        frame_interval=1,
+        num_clips=25,
+        test_mode=True,
+        type='SampleFrames'),
+    dict(io_backend='disk', type='RawFrameDecode'),
+    dict(scale=(
+        -1,
+        256,
+    ), type='Resize'),
+    dict(crop_size=224, type='TenCrop'),
+    dict(input_format='NCHW', type='FormatShape'),
+    dict(type='PackActionInputs'),
+]
+train_cfg = dict(
+    max_epochs=50, type='EpochBasedTrainLoop', val_begin=1, val_interval=1)
+train_dataloader = dict(
+    batch_size=16,
+    dataset=dict(
+        ann_file=
+        '/home/node1/Desktop/code/ai/data/sbu/nc_plus_08size_3c_filter/trainPrivacyRaw.txt',
+        data_prefix=dict(
+            img=
+            '/home/node1/Desktop/code/ai/data/sbu/nc_plus_08size_3c_filter/data'
+        ),
+        filename_tmpl='{:06}.png',
+        pipeline=[
+            dict(
+                clip_len=1, frame_interval=1, num_clips=6,
+                type='SampleFrames'),
+            dict(io_backend='disk', type='RawFrameDecode'),
+            dict(scale=(
+                -1,
+                256,
+            ), type='Resize'),
+            dict(
+                input_size=224,
+                max_wh_scale_gap=1,
+                random_crop=False,
+                scales=(
+                    1,
+                    0.875,
+                    0.75,
+                    0.5,
+                ),
+                type='MultiScaleCrop'),
+            dict(keep_ratio=False, scale=(
+                224,
+                224,
+            ), type='Resize'),
+            dict(input_format='NCHW', type='FormatShape'),
+            dict(type='PackActionInputs'),
+        ],
+        type='RawframeDataset'),
+    num_workers=8,
+    persistent_workers=True,
+    sampler=dict(shuffle=True, type='DefaultSampler'))
+train_pipeline = [
+    dict(clip_len=1, frame_interval=1, num_clips=6, type='SampleFrames'),
+    dict(io_backend='disk', type='RawFrameDecode'),
+    dict(scale=(
+        -1,
+        256,
+    ), type='Resize'),
+    dict(
+        input_size=224,
+        max_wh_scale_gap=1,
+        random_crop=False,
+        scales=(
+            1,
+            0.875,
+            0.75,
+            0.5,
+        ),
+        type='MultiScaleCrop'),
+    dict(keep_ratio=False, scale=(
+        224,
+        224,
+    ), type='Resize'),
+    dict(input_format='NCHW', type='FormatShape'),
+    dict(type='PackActionInputs'),
+]
+val_cfg = dict(type='ValLoop')
+val_dataloader = dict(
+    batch_size=16,
+    dataset=dict(
+        ann_file=
+        '/home/node1/Desktop/code/ai/data/sbu/nc_plus_08size_3c_filter/valPrivacyRaw.txt',
+        data_prefix=dict(
+            img=
+            '/home/node1/Desktop/code/ai/data/sbu/nc_plus_08size_3c_filter/data'
+        ),
+        filename_tmpl='{:06}.png',
+        pipeline=[
+            dict(
+                clip_len=1,
+                frame_interval=1,
+                num_clips=6,
+                test_mode=True,
+                type='SampleFrames'),
+            dict(io_backend='disk', type='RawFrameDecode'),
+            dict(scale=(
+                -1,
+                256,
+            ), type='Resize'),
+            dict(crop_size=224, type='CenterCrop'),
+            dict(input_format='NCHW', type='FormatShape'),
+            dict(type='PackActionInputs'),
+        ],
+        test_mode=True,
+        type='RawframeDataset'),
+    num_workers=8,
+    persistent_workers=True,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+val_evaluator = dict(type='AccMetric')
+val_pipeline = [
+    dict(
+        clip_len=1,
+        frame_interval=1,
+        num_clips=6,
+        test_mode=True,
+        type='SampleFrames'),
+    dict(io_backend='disk', type='RawFrameDecode'),
+    dict(scale=(
+        -1,
+        256,
+    ), type='Resize'),
+    dict(crop_size=224, type='CenterCrop'),
+    dict(input_format='NCHW', type='FormatShape'),
+    dict(type='PackActionInputs'),
+]
+vis_backends = [
+    dict(type='LocalVisBackend'),
+]
+visualizer = dict(
+    type='ActionVisualizer', vis_backends=[
+        dict(type='LocalVisBackend'),
+    ])
+work_dir = './work_dirs/resnet_cls_softmax_privacy_08-zqf'
+
+2024/10/19 23:52:04 - mmengine - INFO - Distributed training is not used, all SyncBatchNorm (SyncBN) layers in the model will be automatically reverted to BatchNormXd layers if they are used.
+2024/10/19 23:52:04 - mmengine - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+before_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) DistSamplerSeedHook                
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_train_epoch:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) SyncBuffersHook                    
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_val_epoch:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) SyncBuffersHook                    
+ -------------------- 
+before_val_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_val_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_test_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_test_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_test_iter:
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_run:
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+2024/10/19 23:52:05 - mmengine - INFO - These parameters in pretrained checkpoint are not loaded: {'fc.weight', 'fc.bias'}
+Name of parameter - Initialization information
+
+backbone.conv1.conv.weight - torch.Size([64, 3, 7, 7]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.conv1.bn.weight - torch.Size([64]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.conv1.bn.bias - torch.Size([64]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.0.conv1.conv.weight - torch.Size([64, 64, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.0.conv1.bn.weight - torch.Size([64]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.0.conv1.bn.bias - torch.Size([64]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.0.conv2.conv.weight - torch.Size([64, 64, 3, 3]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.0.conv2.bn.weight - torch.Size([64]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.0.conv2.bn.bias - torch.Size([64]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.0.conv3.conv.weight - torch.Size([256, 64, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.0.conv3.bn.weight - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.0.conv3.bn.bias - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.0.downsample.conv.weight - torch.Size([256, 64, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.0.downsample.bn.weight - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.0.downsample.bn.bias - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.1.conv1.conv.weight - torch.Size([64, 256, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.1.conv1.bn.weight - torch.Size([64]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.1.conv1.bn.bias - torch.Size([64]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.1.conv2.conv.weight - torch.Size([64, 64, 3, 3]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.1.conv2.bn.weight - torch.Size([64]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.1.conv2.bn.bias - torch.Size([64]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.1.conv3.conv.weight - torch.Size([256, 64, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.1.conv3.bn.weight - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.1.conv3.bn.bias - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.2.conv1.conv.weight - torch.Size([64, 256, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.2.conv1.bn.weight - torch.Size([64]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.2.conv1.bn.bias - torch.Size([64]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.2.conv2.conv.weight - torch.Size([64, 64, 3, 3]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.2.conv2.bn.weight - torch.Size([64]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.2.conv2.bn.bias - torch.Size([64]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.2.conv3.conv.weight - torch.Size([256, 64, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.2.conv3.bn.weight - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer1.2.conv3.bn.bias - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.0.conv1.conv.weight - torch.Size([128, 256, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.0.conv1.bn.weight - torch.Size([128]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.0.conv1.bn.bias - torch.Size([128]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.0.conv2.conv.weight - torch.Size([128, 128, 3, 3]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.0.conv2.bn.weight - torch.Size([128]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.0.conv2.bn.bias - torch.Size([128]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.0.conv3.conv.weight - torch.Size([512, 128, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.0.conv3.bn.weight - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.0.conv3.bn.bias - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.0.downsample.conv.weight - torch.Size([512, 256, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.0.downsample.bn.weight - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.0.downsample.bn.bias - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.1.conv1.conv.weight - torch.Size([128, 512, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.1.conv1.bn.weight - torch.Size([128]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.1.conv1.bn.bias - torch.Size([128]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.1.conv2.conv.weight - torch.Size([128, 128, 3, 3]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.1.conv2.bn.weight - torch.Size([128]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.1.conv2.bn.bias - torch.Size([128]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.1.conv3.conv.weight - torch.Size([512, 128, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.1.conv3.bn.weight - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.1.conv3.bn.bias - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.2.conv1.conv.weight - torch.Size([128, 512, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.2.conv1.bn.weight - torch.Size([128]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.2.conv1.bn.bias - torch.Size([128]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.2.conv2.conv.weight - torch.Size([128, 128, 3, 3]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.2.conv2.bn.weight - torch.Size([128]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.2.conv2.bn.bias - torch.Size([128]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.2.conv3.conv.weight - torch.Size([512, 128, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.2.conv3.bn.weight - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.2.conv3.bn.bias - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.3.conv1.conv.weight - torch.Size([128, 512, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.3.conv1.bn.weight - torch.Size([128]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.3.conv1.bn.bias - torch.Size([128]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.3.conv2.conv.weight - torch.Size([128, 128, 3, 3]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.3.conv2.bn.weight - torch.Size([128]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.3.conv2.bn.bias - torch.Size([128]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.3.conv3.conv.weight - torch.Size([512, 128, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.3.conv3.bn.weight - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer2.3.conv3.bn.bias - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.0.conv1.conv.weight - torch.Size([256, 512, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.0.conv1.bn.weight - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.0.conv1.bn.bias - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.0.conv2.conv.weight - torch.Size([256, 256, 3, 3]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.0.conv2.bn.weight - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.0.conv2.bn.bias - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.0.conv3.conv.weight - torch.Size([1024, 256, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.0.conv3.bn.weight - torch.Size([1024]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.0.conv3.bn.bias - torch.Size([1024]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.0.downsample.conv.weight - torch.Size([1024, 512, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.0.downsample.bn.weight - torch.Size([1024]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.0.downsample.bn.bias - torch.Size([1024]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.1.conv1.conv.weight - torch.Size([256, 1024, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.1.conv1.bn.weight - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.1.conv1.bn.bias - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.1.conv2.conv.weight - torch.Size([256, 256, 3, 3]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.1.conv2.bn.weight - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.1.conv2.bn.bias - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.1.conv3.conv.weight - torch.Size([1024, 256, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.1.conv3.bn.weight - torch.Size([1024]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.1.conv3.bn.bias - torch.Size([1024]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.2.conv1.conv.weight - torch.Size([256, 1024, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.2.conv1.bn.weight - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.2.conv1.bn.bias - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.2.conv2.conv.weight - torch.Size([256, 256, 3, 3]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.2.conv2.bn.weight - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.2.conv2.bn.bias - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.2.conv3.conv.weight - torch.Size([1024, 256, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.2.conv3.bn.weight - torch.Size([1024]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.2.conv3.bn.bias - torch.Size([1024]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.3.conv1.conv.weight - torch.Size([256, 1024, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.3.conv1.bn.weight - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.3.conv1.bn.bias - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.3.conv2.conv.weight - torch.Size([256, 256, 3, 3]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.3.conv2.bn.weight - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.3.conv2.bn.bias - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.3.conv3.conv.weight - torch.Size([1024, 256, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.3.conv3.bn.weight - torch.Size([1024]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.3.conv3.bn.bias - torch.Size([1024]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.4.conv1.conv.weight - torch.Size([256, 1024, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.4.conv1.bn.weight - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.4.conv1.bn.bias - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.4.conv2.conv.weight - torch.Size([256, 256, 3, 3]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.4.conv2.bn.weight - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.4.conv2.bn.bias - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.4.conv3.conv.weight - torch.Size([1024, 256, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.4.conv3.bn.weight - torch.Size([1024]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.4.conv3.bn.bias - torch.Size([1024]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.5.conv1.conv.weight - torch.Size([256, 1024, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.5.conv1.bn.weight - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.5.conv1.bn.bias - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.5.conv2.conv.weight - torch.Size([256, 256, 3, 3]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.5.conv2.bn.weight - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.5.conv2.bn.bias - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.5.conv3.conv.weight - torch.Size([1024, 256, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.5.conv3.bn.weight - torch.Size([1024]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer3.5.conv3.bn.bias - torch.Size([1024]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.0.conv1.conv.weight - torch.Size([512, 1024, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.0.conv1.bn.weight - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.0.conv1.bn.bias - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.0.conv2.conv.weight - torch.Size([512, 512, 3, 3]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.0.conv2.bn.weight - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.0.conv2.bn.bias - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.0.conv3.conv.weight - torch.Size([2048, 512, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.0.conv3.bn.weight - torch.Size([2048]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.0.conv3.bn.bias - torch.Size([2048]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.0.downsample.conv.weight - torch.Size([2048, 1024, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.0.downsample.bn.weight - torch.Size([2048]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.0.downsample.bn.bias - torch.Size([2048]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.1.conv1.conv.weight - torch.Size([512, 2048, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.1.conv1.bn.weight - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.1.conv1.bn.bias - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.1.conv2.conv.weight - torch.Size([512, 512, 3, 3]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.1.conv2.bn.weight - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.1.conv2.bn.bias - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.1.conv3.conv.weight - torch.Size([2048, 512, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.1.conv3.bn.weight - torch.Size([2048]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.1.conv3.bn.bias - torch.Size([2048]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.2.conv1.conv.weight - torch.Size([512, 2048, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.2.conv1.bn.weight - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.2.conv1.bn.bias - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.2.conv2.conv.weight - torch.Size([512, 512, 3, 3]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.2.conv2.bn.weight - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.2.conv2.bn.bias - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.2.conv3.conv.weight - torch.Size([2048, 512, 1, 1]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.2.conv3.bn.weight - torch.Size([2048]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+backbone.layer4.2.conv3.bn.bias - torch.Size([2048]): 
+Initialized by user-defined `init_weights` in ResNet  
+
+cls_head.fc_cls.weight - torch.Size([21, 2048]): 
+Initialized by user-defined `init_weights` in SoftmaxHead  
+
+cls_head.fc_cls.bias - torch.Size([21]): 
+Initialized by user-defined `init_weights` in SoftmaxHead  
+2024/10/19 23:52:05 - mmengine - WARNING - "FileClient" will be deprecated in future. Please use io functions in https://mmengine.readthedocs.io/en/latest/api/fileio.html#file-io
+2024/10/19 23:52:05 - mmengine - WARNING - "HardDiskBackend" is the alias of "LocalBackend" and the former will be deprecated in future.
+2024/10/19 23:52:05 - mmengine - INFO - Checkpoints will be saved to /home/node1/Desktop/code/ai/open-mmlab/mmaction2/work_dirs/resnet_cls_softmax_privacy_08-zqf.
+2024/10/19 23:52:11 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:52:11 - mmengine - INFO - Epoch(train)  [1][15/15]  lr: 1.0000e-02  eta: 0:05:16  time: 0.4303  data_time: 0.0191  memory: 8164  grad_norm: 3.7463  loss: 3.0654  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 3.0654
+2024/10/19 23:52:12 - mmengine - INFO - Epoch(val) [1][4/4]    acc/top1: 0.0000  acc/top5: 0.1404  acc/mean1: 0.0000  data_time: 0.0471  time: 0.1819
+2024/10/19 23:52:12 - mmengine - INFO - The best checkpoint with 0.0000 acc/top1 at 1 epoch is saved to best_acc_top1_epoch_1.pth.
+2024/10/19 23:52:18 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:52:18 - mmengine - INFO - Epoch(train)  [2][15/15]  lr: 9.9901e-03  eta: 0:05:01  time: 0.3950  data_time: 0.0087  memory: 8164  grad_norm: 2.8827  loss: 3.0640  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 3.0640
+2024/10/19 23:52:19 - mmengine - INFO - Epoch(val) [2][4/4]    acc/top1: 0.0351  acc/top5: 0.1053  acc/mean1: 0.0500  data_time: 0.0129  time: 0.1367
+2024/10/19 23:52:19 - mmengine - INFO - The previous best checkpoint /home/node1/Desktop/code/ai/open-mmlab/mmaction2/work_dirs/resnet_cls_softmax_privacy_08-zqf/best_acc_top1_epoch_1.pth is removed
+2024/10/19 23:52:19 - mmengine - INFO - The best checkpoint with 0.0351 acc/top1 at 2 epoch is saved to best_acc_top1_epoch_2.pth.
+2024/10/19 23:52:25 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:52:25 - mmengine - INFO - Epoch(train)  [3][15/15]  lr: 9.9606e-03  eta: 0:04:52  time: 0.3915  data_time: 0.0076  memory: 8164  grad_norm: 1.6921  loss: 3.0371  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 3.0371
+2024/10/19 23:52:25 - mmengine - INFO - Saving checkpoint at 3 epochs
+2024/10/19 23:52:26 - mmengine - INFO - Epoch(val) [3][4/4]    acc/top1: 0.0351  acc/top5: 0.1053  acc/mean1: 0.0500  data_time: 0.0128  time: 0.1364
+2024/10/19 23:52:32 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:52:32 - mmengine - INFO - Epoch(train)  [4][15/15]  lr: 9.9114e-03  eta: 0:04:45  time: 0.3923  data_time: 0.0081  memory: 8164  grad_norm: 1.3819  loss: 3.0410  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 3.0410
+2024/10/19 23:52:33 - mmengine - INFO - Epoch(val) [4][4/4]    acc/top1: 0.0351  acc/top5: 0.1404  acc/mean1: 0.0500  data_time: 0.0135  time: 0.1372
+2024/10/19 23:52:39 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:52:39 - mmengine - INFO - Epoch(train)  [5][15/15]  lr: 9.8429e-03  eta: 0:04:38  time: 0.3920  data_time: 0.0077  memory: 8164  grad_norm: 1.2253  loss: 3.0463  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 3.0463
+2024/10/19 23:52:40 - mmengine - INFO - Epoch(val) [5][4/4]    acc/top1: 0.0351  acc/top5: 0.1404  acc/mean1: 0.0476  data_time: 0.0130  time: 0.1366
+2024/10/19 23:52:46 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:52:46 - mmengine - INFO - Epoch(train)  [6][15/15]  lr: 9.7553e-03  eta: 0:04:31  time: 0.3924  data_time: 0.0082  memory: 8164  grad_norm: 1.1822  loss: 3.0280  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 3.0280
+2024/10/19 23:52:46 - mmengine - INFO - Saving checkpoint at 6 epochs
+2024/10/19 23:52:47 - mmengine - INFO - Epoch(val) [6][4/4]    acc/top1: 0.0351  acc/top5: 0.1930  acc/mean1: 0.0476  data_time: 0.0129  time: 0.1366
+2024/10/19 23:52:53 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:52:53 - mmengine - INFO - Epoch(train)  [7][15/15]  lr: 9.6489e-03  eta: 0:04:24  time: 0.3929  data_time: 0.0087  memory: 8164  grad_norm: 1.5288  loss: 3.0058  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 3.0058
+2024/10/19 23:52:54 - mmengine - INFO - Epoch(val) [7][4/4]    acc/top1: 0.0877  acc/top5: 0.1930  acc/mean1: 0.0476  data_time: 0.0129  time: 0.1366
+2024/10/19 23:52:54 - mmengine - INFO - The previous best checkpoint /home/node1/Desktop/code/ai/open-mmlab/mmaction2/work_dirs/resnet_cls_softmax_privacy_08-zqf/best_acc_top1_epoch_2.pth is removed
+2024/10/19 23:52:54 - mmengine - INFO - The best checkpoint with 0.0877 acc/top1 at 7 epoch is saved to best_acc_top1_epoch_7.pth.
+2024/10/19 23:53:00 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:53:00 - mmengine - INFO - Epoch(train)  [8][15/15]  lr: 9.5241e-03  eta: 0:04:18  time: 0.3928  data_time: 0.0083  memory: 8164  grad_norm: 1.8259  loss: 2.9830  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.9830
+2024/10/19 23:53:01 - mmengine - INFO - Epoch(val) [8][4/4]    acc/top1: 0.0351  acc/top5: 0.2632  acc/mean1: 0.0476  data_time: 0.0131  time: 0.1369
+2024/10/19 23:53:07 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:53:07 - mmengine - INFO - Epoch(train)  [9][15/15]  lr: 9.3815e-03  eta: 0:04:12  time: 0.3924  data_time: 0.0080  memory: 8164  grad_norm: 2.4210  loss: 2.9969  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.9969
+2024/10/19 23:53:07 - mmengine - INFO - Saving checkpoint at 9 epochs
+2024/10/19 23:53:08 - mmengine - INFO - Epoch(val) [9][4/4]    acc/top1: 0.0526  acc/top5: 0.3333  acc/mean1: 0.0714  data_time: 0.0128  time: 0.1368
+2024/10/19 23:53:14 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:53:14 - mmengine - INFO - Epoch(train) [10][15/15]  lr: 9.2216e-03  eta: 0:04:05  time: 0.3929  data_time: 0.0082  memory: 8164  grad_norm: 2.6303  loss: 2.9439  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.9439
+2024/10/19 23:53:15 - mmengine - INFO - Epoch(val) [10][4/4]    acc/top1: 0.0526  acc/top5: 0.4912  acc/mean1: 0.0714  data_time: 0.0134  time: 0.1378
+2024/10/19 23:53:21 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:53:21 - mmengine - INFO - Epoch(train) [11][15/15]  lr: 9.0451e-03  eta: 0:03:59  time: 0.3916  data_time: 0.0070  memory: 8164  grad_norm: 2.4131  loss: 2.8308  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 2.8308
+2024/10/19 23:53:22 - mmengine - INFO - Epoch(val) [11][4/4]    acc/top1: 0.1228  acc/top5: 0.5088  acc/mean1: 0.1300  data_time: 0.0139  time: 0.1375
+2024/10/19 23:53:22 - mmengine - INFO - The previous best checkpoint /home/node1/Desktop/code/ai/open-mmlab/mmaction2/work_dirs/resnet_cls_softmax_privacy_08-zqf/best_acc_top1_epoch_7.pth is removed
+2024/10/19 23:53:22 - mmengine - INFO - The best checkpoint with 0.1228 acc/top1 at 11 epoch is saved to best_acc_top1_epoch_11.pth.
+2024/10/19 23:53:28 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:53:28 - mmengine - INFO - Epoch(train) [12][15/15]  lr: 8.8526e-03  eta: 0:03:53  time: 0.3978  data_time: 0.0135  memory: 8164  grad_norm: 2.8364  loss: 2.7112  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 2.7112
+2024/10/19 23:53:28 - mmengine - INFO - Saving checkpoint at 12 epochs
+2024/10/19 23:53:29 - mmengine - INFO - Epoch(val) [12][4/4]    acc/top1: 0.1404  acc/top5: 0.5088  acc/mean1: 0.1619  data_time: 0.0136  time: 0.1374
+2024/10/19 23:53:29 - mmengine - INFO - The previous best checkpoint /home/node1/Desktop/code/ai/open-mmlab/mmaction2/work_dirs/resnet_cls_softmax_privacy_08-zqf/best_acc_top1_epoch_11.pth is removed
+2024/10/19 23:53:30 - mmengine - INFO - The best checkpoint with 0.1404 acc/top1 at 12 epoch is saved to best_acc_top1_epoch_12.pth.
+2024/10/19 23:53:36 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:53:36 - mmengine - INFO - Epoch(train) [13][15/15]  lr: 8.6448e-03  eta: 0:03:47  time: 0.3918  data_time: 0.0073  memory: 8164  grad_norm: 3.4597  loss: 2.6410  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 2.6410
+2024/10/19 23:53:37 - mmengine - INFO - Epoch(val) [13][4/4]    acc/top1: 0.1053  acc/top5: 0.6491  acc/mean1: 0.0952  data_time: 0.0135  time: 0.1372
+2024/10/19 23:53:43 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:53:43 - mmengine - INFO - Epoch(train) [14][15/15]  lr: 8.4227e-03  eta: 0:03:41  time: 0.3923  data_time: 0.0080  memory: 8164  grad_norm: 3.8176  loss: 2.5439  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 2.5439
+2024/10/19 23:53:44 - mmengine - INFO - Epoch(val) [14][4/4]    acc/top1: 0.1930  acc/top5: 0.6667  acc/mean1: 0.2450  data_time: 0.0128  time: 0.1364
+2024/10/19 23:53:44 - mmengine - INFO - The previous best checkpoint /home/node1/Desktop/code/ai/open-mmlab/mmaction2/work_dirs/resnet_cls_softmax_privacy_08-zqf/best_acc_top1_epoch_12.pth is removed
+2024/10/19 23:53:44 - mmengine - INFO - The best checkpoint with 0.1930 acc/top1 at 14 epoch is saved to best_acc_top1_epoch_14.pth.
+2024/10/19 23:53:50 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:53:50 - mmengine - INFO - Epoch(train) [15][15/15]  lr: 8.1871e-03  eta: 0:03:34  time: 0.3919  data_time: 0.0076  memory: 8164  grad_norm: 4.5551  loss: 2.5258  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.5258
+2024/10/19 23:53:50 - mmengine - INFO - Saving checkpoint at 15 epochs
+2024/10/19 23:53:52 - mmengine - INFO - Epoch(val) [15][4/4]    acc/top1: 0.1579  acc/top5: 0.6842  acc/mean1: 0.2000  data_time: 0.0139  time: 0.1374
+2024/10/19 23:53:58 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:53:58 - mmengine - INFO - Epoch(train) [16][15/15]  lr: 7.9389e-03  eta: 0:03:28  time: 0.3921  data_time: 0.0077  memory: 8164  grad_norm: 5.0950  loss: 2.4392  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.4392
+2024/10/19 23:53:58 - mmengine - INFO - Epoch(val) [16][4/4]    acc/top1: 0.2105  acc/top5: 0.7895  acc/mean1: 0.2381  data_time: 0.0127  time: 0.1363
+2024/10/19 23:53:58 - mmengine - INFO - The previous best checkpoint /home/node1/Desktop/code/ai/open-mmlab/mmaction2/work_dirs/resnet_cls_softmax_privacy_08-zqf/best_acc_top1_epoch_14.pth is removed
+2024/10/19 23:53:59 - mmengine - INFO - The best checkpoint with 0.2105 acc/top1 at 16 epoch is saved to best_acc_top1_epoch_16.pth.
+2024/10/19 23:54:05 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:54:05 - mmengine - INFO - Epoch(train) [17][15/15]  lr: 7.6791e-03  eta: 0:03:22  time: 0.3931  data_time: 0.0087  memory: 8164  grad_norm: 5.6593  loss: 2.3280  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.3280
+2024/10/19 23:54:06 - mmengine - INFO - Epoch(val) [17][4/4]    acc/top1: 0.2982  acc/top5: 0.7719  acc/mean1: 0.3484  data_time: 0.0132  time: 0.1368
+2024/10/19 23:54:06 - mmengine - INFO - The previous best checkpoint /home/node1/Desktop/code/ai/open-mmlab/mmaction2/work_dirs/resnet_cls_softmax_privacy_08-zqf/best_acc_top1_epoch_16.pth is removed
+2024/10/19 23:54:06 - mmengine - INFO - The best checkpoint with 0.2982 acc/top1 at 17 epoch is saved to best_acc_top1_epoch_17.pth.
+2024/10/19 23:54:13 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:54:13 - mmengine - INFO - Epoch(train) [18][15/15]  lr: 7.4088e-03  eta: 0:03:16  time: 0.3924  data_time: 0.0079  memory: 8164  grad_norm: 5.6275  loss: 2.2384  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.2384
+2024/10/19 23:54:13 - mmengine - INFO - Saving checkpoint at 18 epochs
+2024/10/19 23:54:14 - mmengine - INFO - Epoch(val) [18][4/4]    acc/top1: 0.3158  acc/top5: 0.8772  acc/mean1: 0.3524  data_time: 0.0131  time: 0.1367
+2024/10/19 23:54:14 - mmengine - INFO - The previous best checkpoint /home/node1/Desktop/code/ai/open-mmlab/mmaction2/work_dirs/resnet_cls_softmax_privacy_08-zqf/best_acc_top1_epoch_17.pth is removed
+2024/10/19 23:54:14 - mmengine - INFO - The best checkpoint with 0.3158 acc/top1 at 18 epoch is saved to best_acc_top1_epoch_18.pth.
+2024/10/19 23:54:20 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:54:20 - mmengine - INFO - Epoch(train) [19][15/15]  lr: 7.1289e-03  eta: 0:03:10  time: 0.3924  data_time: 0.0078  memory: 8164  grad_norm: 5.4718  loss: 2.1081  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.1081
+2024/10/19 23:54:21 - mmengine - INFO - Epoch(val) [19][4/4]    acc/top1: 0.3509  acc/top5: 0.9123  acc/mean1: 0.3381  data_time: 0.0131  time: 0.1367
+2024/10/19 23:54:21 - mmengine - INFO - The previous best checkpoint /home/node1/Desktop/code/ai/open-mmlab/mmaction2/work_dirs/resnet_cls_softmax_privacy_08-zqf/best_acc_top1_epoch_18.pth is removed
+2024/10/19 23:54:21 - mmengine - INFO - The best checkpoint with 0.3509 acc/top1 at 19 epoch is saved to best_acc_top1_epoch_19.pth.
+2024/10/19 23:54:28 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:54:28 - mmengine - INFO - Epoch(train) [20][15/15]  lr: 6.8406e-03  eta: 0:03:03  time: 0.3920  data_time: 0.0076  memory: 8164  grad_norm: 5.9128  loss: 2.1082  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.1082
+2024/10/19 23:54:29 - mmengine - INFO - Epoch(val) [20][4/4]    acc/top1: 0.3333  acc/top5: 0.9298  acc/mean1: 0.3975  data_time: 0.0129  time: 0.1365
+2024/10/19 23:54:35 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:54:35 - mmengine - INFO - Epoch(train) [21][15/15]  lr: 6.5451e-03  eta: 0:02:57  time: 0.3924  data_time: 0.0079  memory: 8164  grad_norm: 5.9972  loss: 2.0137  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.0137
+2024/10/19 23:54:35 - mmengine - INFO - Saving checkpoint at 21 epochs
+2024/10/19 23:54:36 - mmengine - INFO - Epoch(val) [21][4/4]    acc/top1: 0.4386  acc/top5: 0.8947  acc/mean1: 0.4958  data_time: 0.0130  time: 0.1368
+2024/10/19 23:54:36 - mmengine - INFO - The previous best checkpoint /home/node1/Desktop/code/ai/open-mmlab/mmaction2/work_dirs/resnet_cls_softmax_privacy_08-zqf/best_acc_top1_epoch_19.pth is removed
+2024/10/19 23:54:36 - mmengine - INFO - The best checkpoint with 0.4386 acc/top1 at 21 epoch is saved to best_acc_top1_epoch_21.pth.
+2024/10/19 23:54:42 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:54:42 - mmengine - INFO - Epoch(train) [22][15/15]  lr: 6.2434e-03  eta: 0:02:51  time: 0.3921  data_time: 0.0074  memory: 8164  grad_norm: 6.0315  loss: 1.9661  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 1.9661
+2024/10/19 23:54:43 - mmengine - INFO - Epoch(val) [22][4/4]    acc/top1: 0.4912  acc/top5: 0.8596  acc/mean1: 0.5095  data_time: 0.0129  time: 0.1366
+2024/10/19 23:54:43 - mmengine - INFO - The previous best checkpoint /home/node1/Desktop/code/ai/open-mmlab/mmaction2/work_dirs/resnet_cls_softmax_privacy_08-zqf/best_acc_top1_epoch_21.pth is removed
+2024/10/19 23:54:43 - mmengine - INFO - The best checkpoint with 0.4912 acc/top1 at 22 epoch is saved to best_acc_top1_epoch_22.pth.
+2024/10/19 23:54:50 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:54:50 - mmengine - INFO - Epoch(train) [23][15/15]  lr: 5.9369e-03  eta: 0:02:45  time: 0.3927  data_time: 0.0080  memory: 8164  grad_norm: 5.8646  loss: 1.8191  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 1.8191
+2024/10/19 23:54:50 - mmengine - INFO - Epoch(val) [23][4/4]    acc/top1: 0.4737  acc/top5: 0.9298  acc/mean1: 0.4833  data_time: 0.0130  time: 0.1366
+2024/10/19 23:54:57 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:54:57 - mmengine - INFO - Epoch(train) [24][15/15]  lr: 5.6267e-03  eta: 0:02:39  time: 0.3928  data_time: 0.0082  memory: 8164  grad_norm: 6.4185  loss: 1.7958  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 1.7958
+2024/10/19 23:54:57 - mmengine - INFO - Saving checkpoint at 24 epochs
+2024/10/19 23:54:58 - mmengine - INFO - Epoch(val) [24][4/4]    acc/top1: 0.4561  acc/top5: 0.9298  acc/mean1: 0.4617  data_time: 0.0134  time: 0.1372
+2024/10/19 23:55:04 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:55:04 - mmengine - INFO - Epoch(train) [25][15/15]  lr: 5.3140e-03  eta: 0:02:33  time: 0.3926  data_time: 0.0080  memory: 8164  grad_norm: 6.3485  loss: 1.7523  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 1.7523
+2024/10/19 23:55:04 - mmengine - INFO - Epoch(val) [25][4/4]    acc/top1: 0.5439  acc/top5: 0.9474  acc/mean1: 0.5310  data_time: 0.0131  time: 0.1368
+2024/10/19 23:55:04 - mmengine - INFO - The previous best checkpoint /home/node1/Desktop/code/ai/open-mmlab/mmaction2/work_dirs/resnet_cls_softmax_privacy_08-zqf/best_acc_top1_epoch_22.pth is removed
+2024/10/19 23:55:05 - mmengine - INFO - The best checkpoint with 0.5439 acc/top1 at 25 epoch is saved to best_acc_top1_epoch_25.pth.
+2024/10/19 23:55:11 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:55:11 - mmengine - INFO - Epoch(train) [26][15/15]  lr: 5.0000e-03  eta: 0:02:27  time: 0.3931  data_time: 0.0084  memory: 8164  grad_norm: 6.6171  loss: 1.6268  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 1.6268
+2024/10/19 23:55:12 - mmengine - INFO - Epoch(val) [26][4/4]    acc/top1: 0.5965  acc/top5: 0.9649  acc/mean1: 0.6000  data_time: 0.0134  time: 0.1371
+2024/10/19 23:55:12 - mmengine - INFO - The previous best checkpoint /home/node1/Desktop/code/ai/open-mmlab/mmaction2/work_dirs/resnet_cls_softmax_privacy_08-zqf/best_acc_top1_epoch_25.pth is removed
+2024/10/19 23:55:12 - mmengine - INFO - The best checkpoint with 0.5965 acc/top1 at 26 epoch is saved to best_acc_top1_epoch_26.pth.
+2024/10/19 23:55:19 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:55:19 - mmengine - INFO - Epoch(train) [27][15/15]  lr: 4.6860e-03  eta: 0:02:20  time: 0.3928  data_time: 0.0083  memory: 8164  grad_norm: 6.8514  loss: 1.6146  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 1.6146
+2024/10/19 23:55:19 - mmengine - INFO - Saving checkpoint at 27 epochs
+2024/10/19 23:55:20 - mmengine - INFO - Epoch(val) [27][4/4]    acc/top1: 0.5789  acc/top5: 0.9298  acc/mean1: 0.6000  data_time: 0.0134  time: 0.1372
+2024/10/19 23:55:26 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:55:26 - mmengine - INFO - Epoch(train) [28][15/15]  lr: 4.3733e-03  eta: 0:02:14  time: 0.3916  data_time: 0.0071  memory: 8164  grad_norm: 6.2969  loss: 1.4863  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 1.4863
+2024/10/19 23:55:26 - mmengine - INFO - Epoch(val) [28][4/4]    acc/top1: 0.6667  acc/top5: 0.9825  acc/mean1: 0.6775  data_time: 0.0131  time: 0.1368
+2024/10/19 23:55:26 - mmengine - INFO - The previous best checkpoint /home/node1/Desktop/code/ai/open-mmlab/mmaction2/work_dirs/resnet_cls_softmax_privacy_08-zqf/best_acc_top1_epoch_26.pth is removed
+2024/10/19 23:55:27 - mmengine - INFO - The best checkpoint with 0.6667 acc/top1 at 28 epoch is saved to best_acc_top1_epoch_28.pth.
+2024/10/19 23:55:33 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:55:33 - mmengine - INFO - Epoch(train) [29][15/15]  lr: 4.0631e-03  eta: 0:02:08  time: 0.3930  data_time: 0.0085  memory: 8164  grad_norm: 6.9638  loss: 1.4697  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 1.4697
+2024/10/19 23:55:34 - mmengine - INFO - Epoch(val) [29][4/4]    acc/top1: 0.7018  acc/top5: 0.9649  acc/mean1: 0.7217  data_time: 0.0129  time: 0.1366
+2024/10/19 23:55:34 - mmengine - INFO - The previous best checkpoint /home/node1/Desktop/code/ai/open-mmlab/mmaction2/work_dirs/resnet_cls_softmax_privacy_08-zqf/best_acc_top1_epoch_28.pth is removed
+2024/10/19 23:55:34 - mmengine - INFO - The best checkpoint with 0.7018 acc/top1 at 29 epoch is saved to best_acc_top1_epoch_29.pth.
+2024/10/19 23:55:41 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:55:41 - mmengine - INFO - Epoch(train) [30][15/15]  lr: 3.7566e-03  eta: 0:02:02  time: 0.3925  data_time: 0.0079  memory: 8164  grad_norm: 6.4226  loss: 1.2570  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 1.2570
+2024/10/19 23:55:41 - mmengine - INFO - Saving checkpoint at 30 epochs
+2024/10/19 23:55:42 - mmengine - INFO - Epoch(val) [30][4/4]    acc/top1: 0.6667  acc/top5: 0.9474  acc/mean1: 0.6175  data_time: 0.0132  time: 0.1370
+2024/10/19 23:55:48 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:55:48 - mmengine - INFO - Epoch(train) [31][15/15]  lr: 3.4549e-03  eta: 0:01:56  time: 0.3927  data_time: 0.0081  memory: 8164  grad_norm: 6.0154  loss: 1.1886  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 1.1886
+2024/10/19 23:55:48 - mmengine - INFO - Epoch(val) [31][4/4]    acc/top1: 0.7895  acc/top5: 0.9825  acc/mean1: 0.8025  data_time: 0.0133  time: 0.1369
+2024/10/19 23:55:48 - mmengine - INFO - The previous best checkpoint /home/node1/Desktop/code/ai/open-mmlab/mmaction2/work_dirs/resnet_cls_softmax_privacy_08-zqf/best_acc_top1_epoch_29.pth is removed
+2024/10/19 23:55:49 - mmengine - INFO - The best checkpoint with 0.7895 acc/top1 at 31 epoch is saved to best_acc_top1_epoch_31.pth.
+2024/10/19 23:55:55 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:55:55 - mmengine - INFO - Epoch(train) [32][15/15]  lr: 3.1594e-03  eta: 0:01:50  time: 0.3938  data_time: 0.0090  memory: 8164  grad_norm: 6.2504  loss: 1.2674  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 1.2674
+2024/10/19 23:55:56 - mmengine - INFO - Epoch(val) [32][4/4]    acc/top1: 0.7368  acc/top5: 0.9649  acc/mean1: 0.7400  data_time: 0.0137  time: 0.1378
+2024/10/19 23:56:02 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:56:02 - mmengine - INFO - Epoch(train) [33][15/15]  lr: 2.8711e-03  eta: 0:01:44  time: 0.3930  data_time: 0.0084  memory: 8164  grad_norm: 7.6962  loss: 1.4493  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 1.4493
+2024/10/19 23:56:02 - mmengine - INFO - Saving checkpoint at 33 epochs
+2024/10/19 23:56:03 - mmengine - INFO - Epoch(val) [33][4/4]    acc/top1: 0.6842  acc/top5: 0.9649  acc/mean1: 0.6942  data_time: 0.0140  time: 0.1380
+2024/10/19 23:56:09 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:56:09 - mmengine - INFO - Epoch(train) [34][15/15]  lr: 2.5912e-03  eta: 0:01:38  time: 0.3936  data_time: 0.0089  memory: 8164  grad_norm: 7.1467  loss: 1.3376  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 1.3376
+2024/10/19 23:56:10 - mmengine - INFO - Epoch(val) [34][4/4]    acc/top1: 0.6842  acc/top5: 0.9825  acc/mean1: 0.7133  data_time: 0.0132  time: 0.1373
+2024/10/19 23:56:16 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:56:16 - mmengine - INFO - Epoch(train) [35][15/15]  lr: 2.3209e-03  eta: 0:01:31  time: 0.3936  data_time: 0.0089  memory: 8164  grad_norm: 7.4496  loss: 1.2439  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 1.2439
+2024/10/19 23:56:17 - mmengine - INFO - Epoch(val) [35][4/4]    acc/top1: 0.7544  acc/top5: 0.9825  acc/mean1: 0.7775  data_time: 0.0128  time: 0.1365
+2024/10/19 23:56:23 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:56:23 - mmengine - INFO - Epoch(train) [36][15/15]  lr: 2.0611e-03  eta: 0:01:25  time: 0.3925  data_time: 0.0078  memory: 8164  grad_norm: 7.0996  loss: 1.1850  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 1.1850
+2024/10/19 23:56:23 - mmengine - INFO - Saving checkpoint at 36 epochs
+2024/10/19 23:56:24 - mmengine - INFO - Epoch(val) [36][4/4]    acc/top1: 0.7018  acc/top5: 0.9649  acc/mean1: 0.7317  data_time: 0.0141  time: 0.1379
+2024/10/19 23:56:30 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:56:30 - mmengine - INFO - Epoch(train) [37][15/15]  lr: 1.8129e-03  eta: 0:01:19  time: 0.3921  data_time: 0.0074  memory: 8164  grad_norm: 7.5968  loss: 1.3350  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 1.3350
+2024/10/19 23:56:30 - mmengine - INFO - Epoch(val) [37][4/4]    acc/top1: 0.7018  acc/top5: 0.9825  acc/mean1: 0.7192  data_time: 0.0129  time: 0.1367
+2024/10/19 23:56:36 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:56:36 - mmengine - INFO - Epoch(train) [38][15/15]  lr: 1.5773e-03  eta: 0:01:13  time: 0.3937  data_time: 0.0090  memory: 8164  grad_norm: 6.7874  loss: 1.1481  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 1.1481
+2024/10/19 23:56:37 - mmengine - INFO - Epoch(val) [38][4/4]    acc/top1: 0.6491  acc/top5: 0.9825  acc/mean1: 0.6633  data_time: 0.0131  time: 0.1369
+2024/10/19 23:56:43 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:56:43 - mmengine - INFO - Epoch(train) [39][15/15]  lr: 1.3552e-03  eta: 0:01:07  time: 0.3928  data_time: 0.0081  memory: 8164  grad_norm: 6.8838  loss: 1.0498  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 1.0498
+2024/10/19 23:56:43 - mmengine - INFO - Saving checkpoint at 39 epochs
+2024/10/19 23:56:44 - mmengine - INFO - Epoch(val) [39][4/4]    acc/top1: 0.7719  acc/top5: 0.9825  acc/mean1: 0.7942  data_time: 0.0130  time: 0.1368
+2024/10/19 23:56:50 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:56:50 - mmengine - INFO - Epoch(train) [40][15/15]  lr: 1.1474e-03  eta: 0:01:01  time: 0.3929  data_time: 0.0081  memory: 8164  grad_norm: 6.6101  loss: 1.0183  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 1.0183
+2024/10/19 23:56:51 - mmengine - INFO - Epoch(val) [40][4/4]    acc/top1: 0.7193  acc/top5: 0.9825  acc/mean1: 0.7692  data_time: 0.0143  time: 0.1383
+2024/10/19 23:56:57 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:56:57 - mmengine - INFO - Epoch(train) [41][15/15]  lr: 9.5492e-04  eta: 0:00:55  time: 0.3926  data_time: 0.0078  memory: 8164  grad_norm: 6.9717  loss: 1.1052  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 1.1052
+2024/10/19 23:56:58 - mmengine - INFO - Epoch(val) [41][4/4]    acc/top1: 0.7368  acc/top5: 0.9825  acc/mean1: 0.7925  data_time: 0.0136  time: 0.1374
+2024/10/19 23:57:04 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:57:04 - mmengine - INFO - Epoch(train) [42][15/15]  lr: 7.7836e-04  eta: 0:00:48  time: 0.3926  data_time: 0.0078  memory: 8164  grad_norm: 7.3256  loss: 1.0965  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 1.0965
+2024/10/19 23:57:04 - mmengine - INFO - Saving checkpoint at 42 epochs
+2024/10/19 23:57:05 - mmengine - INFO - Epoch(val) [42][4/4]    acc/top1: 0.7895  acc/top5: 0.9825  acc/mean1: 0.8275  data_time: 0.0134  time: 0.1373
+2024/10/19 23:57:11 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:57:11 - mmengine - INFO - Epoch(train) [43][15/15]  lr: 6.1847e-04  eta: 0:00:42  time: 0.3940  data_time: 0.0092  memory: 8164  grad_norm: 6.9910  loss: 1.0863  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 1.0863
+2024/10/19 23:57:12 - mmengine - INFO - Epoch(val) [43][4/4]    acc/top1: 0.7719  acc/top5: 0.9825  acc/mean1: 0.8008  data_time: 0.0130  time: 0.1371
+2024/10/19 23:57:18 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:57:18 - mmengine - INFO - Epoch(train) [44][15/15]  lr: 4.7586e-04  eta: 0:00:36  time: 0.3930  data_time: 0.0082  memory: 8164  grad_norm: 6.4217  loss: 0.9111  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.9111
+2024/10/19 23:57:18 - mmengine - INFO - Epoch(val) [44][4/4]    acc/top1: 0.7719  acc/top5: 0.9825  acc/mean1: 0.8008  data_time: 0.0136  time: 0.1375
+2024/10/19 23:57:25 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:57:25 - mmengine - INFO - Epoch(train) [45][15/15]  lr: 3.5112e-04  eta: 0:00:30  time: 0.3931  data_time: 0.0082  memory: 8164  grad_norm: 6.5005  loss: 0.9577  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 0.9577
+2024/10/19 23:57:25 - mmengine - INFO - Saving checkpoint at 45 epochs
+2024/10/19 23:57:26 - mmengine - INFO - Epoch(val) [45][4/4]    acc/top1: 0.7719  acc/top5: 0.9825  acc/mean1: 0.7858  data_time: 0.0132  time: 0.1370
+2024/10/19 23:57:32 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:57:32 - mmengine - INFO - Epoch(train) [46][15/15]  lr: 2.4472e-04  eta: 0:00:24  time: 0.3934  data_time: 0.0086  memory: 8164  grad_norm: 6.8727  loss: 1.0426  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 1.0426
+2024/10/19 23:57:32 - mmengine - INFO - Epoch(val) [46][4/4]    acc/top1: 0.7368  acc/top5: 0.9825  acc/mean1: 0.7758  data_time: 0.0130  time: 0.1369
+2024/10/19 23:57:38 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:57:38 - mmengine - INFO - Epoch(train) [47][15/15]  lr: 1.5708e-04  eta: 0:00:18  time: 0.3934  data_time: 0.0085  memory: 8164  grad_norm: 6.5995  loss: 0.9316  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.9316
+2024/10/19 23:57:39 - mmengine - INFO - Epoch(val) [47][4/4]    acc/top1: 0.7719  acc/top5: 0.9825  acc/mean1: 0.8108  data_time: 0.0131  time: 0.1368
+2024/10/19 23:57:45 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:57:45 - mmengine - INFO - Epoch(train) [48][15/15]  lr: 8.8564e-05  eta: 0:00:12  time: 0.3935  data_time: 0.0088  memory: 8164  grad_norm: 7.0057  loss: 1.0559  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 1.0559
+2024/10/19 23:57:45 - mmengine - INFO - Saving checkpoint at 48 epochs
+2024/10/19 23:57:46 - mmengine - INFO - Epoch(val) [48][4/4]    acc/top1: 0.7368  acc/top5: 0.9825  acc/mean1: 0.7608  data_time: 0.0133  time: 0.1369
+2024/10/19 23:57:52 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:57:52 - mmengine - INFO - Epoch(train) [49][15/15]  lr: 3.9426e-05  eta: 0:00:06  time: 0.3932  data_time: 0.0085  memory: 8164  grad_norm: 7.0654  loss: 1.0874  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 1.0874
+2024/10/19 23:57:53 - mmengine - INFO - Epoch(val) [49][4/4]    acc/top1: 0.7895  acc/top5: 0.9825  acc/mean1: 0.8358  data_time: 0.0134  time: 0.1375
+2024/10/19 23:57:59 - mmengine - INFO - Exp name: resnet_cls_softmax_privacy_08-zqf_20241019_235203
+2024/10/19 23:57:59 - mmengine - INFO - Epoch(train) [50][15/15]  lr: 9.8664e-06  eta: 0:00:00  time: 0.3933  data_time: 0.0083  memory: 8164  grad_norm: 6.7115  loss: 1.0204  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 1.0204
+2024/10/19 23:57:59 - mmengine - INFO - Saving checkpoint at 50 epochs
+2024/10/19 23:58:00 - mmengine - INFO - Epoch(val) [50][4/4]    acc/top1: 0.7368  acc/top5: 0.9825  acc/mean1: 0.7758  data_time: 0.0132  time: 0.1371

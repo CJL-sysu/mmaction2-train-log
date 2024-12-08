@@ -1,0 +1,7 @@
+大创项目：云计算环境下隐私保护的动作识别方案研究
+
+本仓库存储项目中使用mmaction2训练的配置文件和日志
+
+mmaction2原仓库链接：https://github.com/open-mmlab/mmaction2
+
+要运行本项目的配置，请拉取mmaction2原仓库，使用configs文件夹提供的配置文件，修改数据集路径和batch_size等配置
